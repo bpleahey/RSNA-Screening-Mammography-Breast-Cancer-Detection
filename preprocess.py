@@ -79,7 +79,6 @@ def calculate_aspect_ratios(paths: list, preprocessor=None):
     return ratios
 
 class MammographyPreprocessor():
-    
     # Constructor
     def __init__(self, size: tuple=None, breast_side: str='L',
                  csv_path=None, train_path=None):
@@ -182,6 +181,7 @@ class MammographyPreprocessor():
         plt.show()
     
     # Adjust the contrast of an image
+    #TODO: could change to clahe algorithm
     def _windowing(self, img, scan):
         function = scan.VOILUTFunction
         if type(scan.WindowWidth) == list:
@@ -270,6 +270,7 @@ class MammographyPreprocessor():
         return cv2.resize(img, self.size)
     
     # Get the save path of a given dicom file
+    #TODO: could be a key place to change it to a png to save memory/time
     def _get_save_path(self, path, png, save_dir):
         patient = path.split('/')[-2]
         filename = path.split('/')[-1]
@@ -289,3 +290,6 @@ class MammographyPreprocessor():
         patient_folder = os.path.split(save_path)[0]
         os.makedirs(patient_folder, exist_ok=True)
         cv2.imwrite(save_path, img)
+
+    #TODO: implment pectoral muscle segmentation to remove it from the image
+    #TODO: remove other irregularities from the image. ex: calcifications, implants, etc.
